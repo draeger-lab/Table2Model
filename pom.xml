@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.draegerlab</groupId>
+  <artifactId>table2model</artifactId>
+
+  <!-- Output to jar format -->
+  <packaging>jar</packaging>
+
+  <!-- =================================================================== -->
+  <!-- General project information                                         -->
+  <!-- =================================================================== -->
+
+  <name>Table to Model</name>
+  <version>1.0</version>
+  <url>https://github.com/draeger-lab/Table2Model/</url>
+  <inceptionYear>2021</inceptionYear>
+  <description>
+    A parser for systems biology models published in a table form that produces standardized files, such as SBML.
+  </description>
+
+  <properties>
+    <jdk.version>1.8</jdk.version>
+    <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
+    <year>${maven.build.timestamp}</year>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.license.url>${project.url}/blob/main/LICENSE</project.license.url>
+  </properties>
+
+  <!-- =================================================================== -->
+  <!-- Repositories                                                        -->
+  <!-- =================================================================== -->
+
+  <repositories>
+    <repository>
+      <id>JSBML-SNAPSHOT</id>
+      <name>The JSBML Snapshot repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+
+  <!-- =================================================================== -->
+  <!-- Dependencies                                                        -->
+  <!-- =================================================================== -->
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sbml.jsbml</groupId>
+      <artifactId>jsbml</artifactId>
+      <version>1.6-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <!-- =================================================================== -->
+  <!-- Building                                                            -->
+  <!-- =================================================================== -->
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
