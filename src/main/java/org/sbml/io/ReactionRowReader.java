@@ -39,8 +39,11 @@ import de.zbit.sbml.util.SBMLtools;
 
 
 /**
- * @author Andreas Dr&auml;ger
+ * This class reads one row from a reaction table and parses the information to
+ * create a corresponding SBML {@link Reaction} object comprising all the
+ * information.
  *
+ * @author Andreas Dr&auml;ger
  */
 public class ReactionRowReader extends RowReader {
 

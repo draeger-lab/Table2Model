@@ -167,7 +167,7 @@ public class CSV2SBML {
   /**
    * Getter for the SBML document.
    *
-   * @return
+   * @return The newly created SBML document.
    */
   public SBMLDocument getSBMLDocument() {
     return doc;
