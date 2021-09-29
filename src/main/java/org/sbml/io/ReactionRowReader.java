@@ -84,7 +84,7 @@ public class ReactionRowReader extends RowReader {
           }
           // TODO: reference contains abbreviation for the organism -> change; also update with next JSBML release!
           // gp.addResources(Qualifier.BQB_IS_ENCODED_BY, "https://identifiers.org/kegg.genes/cgb:" + genes[i]);
-          CSV2SBML.addResources(gp, Qualifier.BQB_IS_ENCODED_BY, "https://identifiers.org/kegg.genes/cgb:" + genes[i]);
+          Table2Model.addResources(gp, Qualifier.BQB_IS_ENCODED_BY, "https://identifiers.org/kegg.genes/cgb:" + genes[i]);
           gp.setLabel(genes[i]);
           if (proteins.length > i) {
             gp.setName(proteins[i]);
@@ -263,7 +263,7 @@ public class ReactionRowReader extends RowReader {
       String term = StringTools.leadingZeros(7, ecoTerm);
       logger.info(format("Evidence Ontology Term: {0}", term));
       // TODO: Update with next JSBML release:
-      CSV2SBML.addResources(r, Qualifier.BQB_IS, "https://identifiers.org/eco/ECO:" + term);
+      Table2Model.addResources(r, Qualifier.BQB_IS, "https://identifiers.org/eco/ECO:" + term);
     }
   }
 
@@ -296,7 +296,7 @@ public class ReactionRowReader extends RowReader {
       p = m.getParameter(pid);
       if (p == null) {
         // TODO: MMOL_PER_G_DW_PER_HR should become a static variable in ModelBuilder in next JSBML release
-        p = builder.buildParameter(pid, null, lb, true, CSV2SBML.MMOL_PER_G_DW_PER_HR);
+        p = builder.buildParameter(pid, null, lb, true, Table2Model.MMOL_PER_G_DW_PER_HR);
         p.setSBOTerm(sbo);
       }
       rplug.setLowerFluxBound(p);
@@ -319,7 +319,7 @@ public class ReactionRowReader extends RowReader {
       p = m.getParameter(pid);
       if (p == null) {
         // TODO: MMOL_PER_G_DW_PER_HR should become a static variable in ModelBuilder in next JSBML release
-        p = builder.buildParameter(pid, null, ub, true, CSV2SBML.MMOL_PER_G_DW_PER_HR);
+        p = builder.buildParameter(pid, null, ub, true, Table2Model.MMOL_PER_G_DW_PER_HR);
         p.setSBOTerm(sbo);
       }
       rplug.setUpperFluxBound(p);

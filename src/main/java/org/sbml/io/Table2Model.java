@@ -39,17 +39,17 @@ import de.zbit.util.logging.LogUtil;
  * @author Andreas Dr&auml;ger
  *
  */
-public class CSV2SBML {
+public class Table2Model {
 
   /** Logger */
-  private static final transient Logger logger = Logger.getLogger(CSV2SBML.class.getName());
+  private static final transient Logger logger = Logger.getLogger(Table2Model.class.getName());
 
   // TODO: This will become a constant within ModelBuilder with the next JSBML release
   public static final String MMOL_PER_G_DW_PER_HR = "mmol_per_gDW_per_hr";
 
   private SBMLDocument doc;
 
-  public CSV2SBML(File metabolites, File reactions) throws IOException {
+  public Table2Model(File metabolites, File reactions) throws IOException {
     char separator = ';';
     ModelBuilder builder = new ModelBuilder(new SBMLDocument(3, 1));
     builder.buildCompartment("d", false, "default", 3d, Double.NaN, (String) null);
@@ -182,7 +182,7 @@ public class CSV2SBML {
   public static void main(String[] args) throws IOException, SBMLException, XMLStreamException {
     LogUtil.initializeLogging("io.sbml");
     long time = System.currentTimeMillis();
-    CSV2SBML converter = new CSV2SBML(new File(args[0]), new File(args[1]));
+    Table2Model converter = new Table2Model(new File(args[0]), new File(args[1]));
     SBMLDocument doc = converter.getSBMLDocument();
     Model m = doc.getModel();
     m.setId(args[2].substring(args[2].lastIndexOf('/') + 1, args[2].lastIndexOf('.')));
