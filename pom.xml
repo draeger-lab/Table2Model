@@ -12,7 +12,7 @@
   <!-- General project information                                         -->
   <!-- =================================================================== -->
 
-  <name>Table to Model</name>
+  <name>Table2Model</name>
   <version>1.0</version>
   <url>https://github.com/draeger-lab/Table2Model/</url>
   <inceptionYear>2021</inceptionYear>
@@ -27,6 +27,41 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.license.url>${project.url}/blob/main/LICENSE</project.license.url>
   </properties>
+  
+  <organization>
+    <name>University of Tübingen</name>
+    <url>https://uni-tuebingen.de/en/127116</url>
+  </organization>
+  
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/draeger-lab/Table2Model/issues</url>
+  </issueManagement>
+    
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>${project.license.url}</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <developers>
+    <developer>
+      <name>Andreas Dräger</name>
+      <email>andreas.draeger@uni-tuebingen.de</email>
+      <url>https://github.com/draeger</url>
+      <id>draeger</id>
+      <organization>University of Tübingen</organization>
+      <organizationUrl>https://uni-tuebingen.de/en/127116</organizationUrl>
+      <timezone>Europe/Berlin</timezone>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+        <role>tester</role>
+      </roles>
+    </developer>
+  </developers>
 
   <!-- =================================================================== -->
   <!-- Repositories                                                        -->
@@ -37,6 +72,13 @@
       <id>JSBML-SNAPSHOT</id>
       <name>The JSBML Snapshot repository</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+    <!-- Local libraries are an in-project repository -->
+    <!-- Add the dependencies and put them in -->
+    <!-- ${project.basedir}/lib/groupId/artifactId/version/ -->
+    <repository>
+      <id>libs</id>
+      <url>file://${project.basedir}/lib</url>
     </repository>
   </repositories>
 
@@ -49,6 +91,12 @@
       <groupId>org.sbml.jsbml</groupId>
       <artifactId>jsbml</artifactId>
       <version>1.6-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <!-- mvn install:install-file -Dfile=/path/to/sysbio.jar -DgroupId=de.zbit -DartifactId=SysBio -Dversion=REVISION_NUMBER -Dpackaging=jar -->
+      <groupId>de.zbit</groupId>
+      <artifactId>SysBio</artifactId>
+      <version>1403</version>
     </dependency>
   </dependencies>
 

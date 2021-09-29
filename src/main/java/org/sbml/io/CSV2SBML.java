@@ -11,18 +11,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.Annotation;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.TidySBMLWriter;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.util.ModelBuilder;
@@ -38,6 +44,9 @@ public class CSV2SBML {
   /** Logger */
   private static final transient Logger logger = Logger.getLogger(CSV2SBML.class.getName());
 
+  // TODO: This will become a constant within ModelBuilder with the next JSBML release
+  public static final String MMOL_PER_G_DW_PER_HR = "mmol_per_gDW_per_hr";
+
   private SBMLDocument doc;
 
   public CSV2SBML(File metabolites, File reactions) throws IOException {
@@ -48,8 +57,9 @@ public class CSV2SBML {
     FBCModelPlugin fbcPlugin = (FBCModelPlugin) m.getPlugin(FBCConstants.shortLabel);
     fbcPlugin.setStrict(true);
 
-    // Units
-    builder.buildCBMunits();
+    //TODO! Change with the next JSBML release! Units
+    //builder.buildCBMunits();
+    buildCBMunits(builder);
 
     readTable(metabolites, builder, separator, new SpeciesRowReader());
     readTable(reactions, builder, separator, new ReactionRowReader());
@@ -89,10 +99,48 @@ public class CSV2SBML {
     history.setModifiedDate(c.getTime());
     c.set(2017, Calendar.JUNE, 30, 12, 00);
     history.setCreatedDate(c.getTime());
-    m.addResources(Qualifier.BQB_IS_DESCRIBED_BY, "https://identifiers.org/pubmed/28680478");
-    m.addResources(Qualifier.BQB_HAS_TAXON, "https://identifiers.org/taxonomy/196627");
-
+    //TODO: The following lines will become available with a newer release of JSBML
+    //m.addResources(Qualifier.BQB_IS_DESCRIBED_BY, "https://identifiers.org/pubmed/28680478");
+    //m.addResources(Qualifier.BQB_HAS_TAXON, "https://identifiers.org/taxonomy/196627");
+    addResources(m, Qualifier.BQB_IS_DESCRIBED_BY, "https://identifiers.org/pubmed/28680478");
+    addResources(m, Qualifier.BQB_HAS_TAXON, "https://identifiers.org/taxonomy/196627");
     doc = builder.getSBMLDocument();
+  }
+
+  /**
+   * TODO: Delete this method the next update of JSBML!
+   */
+  public static boolean addResources(SBase sbase, CVTerm.Qualifier qualifier, String... resources) {
+    Annotation a = sbase.getAnnotation();
+    List<CVTerm> listOfTerms = a.filterCVTerms(qualifier);
+    if (listOfTerms.isEmpty()) {
+      return a.addCVTerm(new CVTerm(qualifier, resources));
+    }
+    return listOfTerms.get(0).addResources(resources);
+  }
+
+  // TODO: Delete this method with the next release of JSBML!
+  private void buildCBMunits(ModelBuilder builder) {
+    String HOUR = "hour";
+    String F_L = "fL";
+    String MMOL_PER_G_DW = "mmol_per_gDW";
+    Unit h = builder.buildUnit(3600d, 0, Unit.Kind.SECOND, 1d);
+    Unit fL = builder.buildUnit(1d, -3, Unit.Kind.LITRE, 1d);
+    Unit mmol = builder.buildUnit(1d, -3, Unit.Kind.MOLE, 1d);
+    Unit perGDW = builder.buildUnit(1d, 0, Unit.Kind.GRAM, -1d);
+    UnitDefinition hour = builder.buildUnitDefinition(HOUR, HOUR, h.clone());
+    hour.setMetaId("meta_" + hour.getId());
+    hour.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000032"));
+    UnitDefinition femtoLitres = builder.buildUnitDefinition(F_L, "femto litres", fL.clone());
+    femtoLitres.setMetaId("meta_" + femtoLitres.getId());
+    femtoLitres.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000104"));
+    Model m = builder.getModel();
+    m.setTimeUnits(hour.getId());
+    m.setVolumeUnits(femtoLitres.getId());
+    m.setExtentUnits(builder.buildUnitDefinition(MMOL_PER_G_DW, "millimoles per gram dry weight", mmol.clone(), perGDW.clone()));
+    m.setSubstanceUnits(m.getExtentUnits());
+    h.setExponent(-1d);
+    builder.buildUnitDefinition(MMOL_PER_G_DW_PER_HR, "millimoles per gram dry weight per hour", mmol.clone(), perGDW.clone(), h);
   }
 
   /**
