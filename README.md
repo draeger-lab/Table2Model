@@ -4,6 +4,7 @@
 [![Latest version](https://img.shields.io/badge/Latest_version-1.0-brightgreen.svg?style=plastic)](https://github.com/draeger-lab/Table2Model/releases/)
 ![Lines of Code](https://img.shields.io/tokei/lines/github/draeger-lab/Table2Model?color=orange&style=plastic)
 ![Code Size](https://img.shields.io/github/languages/code-size/draeger-lab/Table2Model.svg?style=plastic)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.5546012-blue?style=plastic)](https://zenodo.org/badge/latestdoi/411446169)
 
 A parser for systems biology models published in a table form that produces standardized files, such as SBML.
 
