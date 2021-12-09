@@ -87,7 +87,7 @@ public class Table2Model {
       "Tingyi Wen", "CAS Key Laboratory of Pathogenic Microbiology and Immunology, Institute of Microbiology, Chinese Academy of Sciences, Beijing 100101",
     };
     History history = m.createHistory();
-    for (int i = 0; i < (authors.length - 1); i+= 2) {
+    for (int i = 0; i < (authors.length - 1); i += 2) {
       Creator c = new Creator();
       String name[] = authors[i].split(" ");
       c.setGivenName(name[0]);
@@ -154,12 +154,10 @@ public class Table2Model {
     char separator, RowReader reader) throws FileNotFoundException, IOException {
     String line;
     BufferedReader bfMetabolites = new BufferedReader(new FileReader(inFile));
-    int row = 0;
-    while ((line = bfMetabolites.readLine()) != null) {
+    for (int row = 0; (line = bfMetabolites.readLine()) != null; row++) {
       if (row > 0) {
         reader.readRow(line.split(String.valueOf(separator)), builder);
       }
-      row++;
     }
     bfMetabolites.close();
   }
